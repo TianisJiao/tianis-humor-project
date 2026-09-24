@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# The Humor Project — Assignments 1 and 2
 
-## Getting Started
+One Next.js app with two distinct Git commits. The Week 1 commit renders a Hello World page. The Week 2 commit adds a Supabase-backed list page.
 
-First, run the development server:
+## Run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Install dependencies: `npm install`
+2. In your Supabase project, open SQL Editor and run [`supabase/setup.sql`](supabase/setup.sql). It creates `caption_ideas`, enables RLS, permits public *read only* access, and inserts three sample rows.
+3. Copy `.env.example` to `.env.local` and replace both example values with your project's **Project URL** and **anon or publishable key**. Do not use a secret or service role key. `.env.local` is gitignored.
+4. Run `npm run dev` and open the local URL. The page should show three rows from Supabase.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Push and deploy the Week 1 commit first, and record its specific deployment URL. Then push the Week 2 commit and deploy again. Under the Vercel project's Environment Variables, add `SUPABASE_URL` and `SUPABASE_ANON_KEY` for Production (and Preview if needed) before the Week 2 deployment. Open its URL in an Incognito window and confirm the rows appear. In Vercel Deployment Protection settings, disable protection for the assignment's public deployments as instructed by the course. Submit each deployment's **specific URL**, rather than only the mutable production alias.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Git history
+
+- `Week 1: deployable Hello World Next.js app` — use its Vercel deployment URL for Assignment 1.
+- `Week 2: read Supabase caption ideas` — use its later Vercel deployment URL for Assignment 2.
+
+Both assignments also require the relevant week's Humor Study separately.

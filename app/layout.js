@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Hello World | The Humor Project",
-  description: "A small beginning for a semester of building.",
+  title: "Caption Ideas | The Humor Project",
+  description: "Caption ideas fetched from Supabase for The Humor Project.",
 };
 
 export default function RootLayout({ children }) {
