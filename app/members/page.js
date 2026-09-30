@@ -6,7 +6,8 @@ export const dynamic = "force-dynamic";
 
 export default async function Members() {
   const supabase = await createClient();
-  const { data: { claims } } = await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+  const claims = data?.claims;
   if (!claims?.sub) redirect("/login");
   const { data: profile, error } = await supabase.from("profiles")
     .select("first_name, last_name").eq("id", claims.sub).single();

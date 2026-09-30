@@ -5,7 +5,8 @@ import GoogleSignIn from "./sign-in-button";
 
 export default async function Login({ searchParams }) {
   const supabase = await createClient();
-  const { data: { claims } } = await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+  const claims = data?.claims;
   if (claims) redirect("/members");
   const { error } = await searchParams;
   return (

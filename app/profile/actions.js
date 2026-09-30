@@ -6,9 +6,9 @@ import { createClient } from "../../lib/supabase/server";
 
 async function signedIn() {
   const supabase = await createClient();
-  const { data: { claims }, error } = await supabase.auth.getClaims();
-  if (error || !claims?.sub) redirect("/login");
-  return { supabase, id: claims.sub };
+  const { data, error } = await supabase.auth.getClaims();
+  if (error || !data?.claims?.sub) redirect("/login");
+  return { supabase, id: data.claims.sub };
 }
 
 export async function updateNames(formData) {
