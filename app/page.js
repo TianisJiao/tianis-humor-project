@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
@@ -34,7 +35,7 @@ export default async function Home() {
     <main className="shell">
       <header className="masthead">
         <span className="brand">THE HUMOR PROJECT</span>
-        <span className="edition">WEEK 02 / CONNECTING THE DATABASE</span>
+        <nav className="header-nav" aria-label="Main navigation"><Link href="/members">Members studio</Link><Link href="/profile">Profile</Link><Link href="/login">Sign in</Link></nav>
       </header>
 
       <section className="hero">
@@ -73,7 +74,7 @@ export default async function Home() {
         )}
       </section>
 
-      <footer><span>Built with Next.js + Supabase</span><span>Assignment 01 → 02</span></footer>
+      <footer><span>Built with Next.js + Supabase</span><span>Assignment 01 → 03</span></footer>
     </main>
   );
 }
