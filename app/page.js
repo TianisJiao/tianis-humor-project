@@ -39,9 +39,10 @@ export default async function Home() {
       </header>
 
       <section className="hero">
-        <div className="eyebrow"><span className="dot" /> LIVE FROM SUPABASE</div>
-        <h1>Hello World<span className="accent">.</span><br /><em>Meet the database.</em></h1>
-        <p className="intro">A small collection of caption ideas, fetched from a real PostgreSQL table every time you visit this page.</p>
+        <div className="eyebrow"><span className="dot" /> THE PUNCHLINE CLUB / COLUMBIA × NYC</div>
+        <h1>Your day<span className="accent">.</span><br /><em>With a punchline.</em></h1>
+        <p className="intro">Dorm chaos, subway drama, weekend side quests. Sign in, turn your photo into three AI captions, and vote on what makes the club laugh.</p>
+        <Link className="button" style={{ textDecoration: "none" }} href="/members">Start the laugh test ↗</Link>
       </section>
 
       <section className="collection" aria-labelledby="collection-title">
@@ -74,7 +75,7 @@ export default async function Home() {
         )}
       </section>
 
-      <footer><span>Built with Next.js + Supabase</span><span>Assignment 01 → 03</span></footer>
+      <footer><span>Built with Next.js + Supabase</span><span>The Humor Project / Week 04</span></footer>
     </main>
   );
 }

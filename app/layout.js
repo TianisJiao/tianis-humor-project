@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Caption Ideas | The Humor Project",
-  description: "Caption ideas, Google sign-in, and a private profile powered by Supabase.",
+  title: "The Punchline Club | The Humor Project",
+  description: "Bring a photo. Get three AI punchlines. Vote for your favorite at The Punchline Club.",
 };
 
 export default function RootLayout({ children }) {

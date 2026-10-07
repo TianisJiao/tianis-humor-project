@@ -59,3 +59,102 @@ footer { border-top: 1px solid #d8d1c3; padding: 23px 0 34px; display: flex; jus
 .success { border-color: #a2b8a5; background: #edf4ed; }
 @media (max-width: 760px) { .profile-grid { grid-template-columns: 1fr; } .masthead { align-items: flex-start; padding: 25px 0; flex-direction: column; } .header-nav { gap: 12px; } }
 @media (max-width: 620px) { .edition { text-align: right; max-width: 130px; line-height: 1.5; } .idea-card { grid-template-columns: 34px 1fr; gap: 12px; } .arrow { display: none; } .hero { padding-top: 80px; } }
+
+/* Week 4: The Punchline Club. Scoped to preserve the existing collection/profile. */
+.club { --ink: #30213d; --acid: #e2fa79; background: #f9f5ec; color: var(--ink); min-height: 100vh; }
+.club-wrap { max-width: 1300px; padding: 0 clamp(22px, 5vw, 70px); margin: auto; }
+.club a { color: inherit; }
+.club button, .club a, .club input, .club summary { touch-action: manipulation; }
+.club :focus-visible { outline: 3px solid #8052aa; outline-offset: 5px; }
+.club-skip { position: fixed; left: 20px; top: -100px; padding: 12px; z-index: 10; background: var(--acid); }
+.club-skip:focus { top: 12px; }
+.club-header { padding: 28px 0; display: flex; justify-content: space-between; align-items: center; gap: 22px; border-bottom: 2px solid var(--ink); }
+.club-logo { font-weight: 900; font-size: 15px; line-height: 1.05; letter-spacing: -.04em; text-decoration: none; }
+.club-logo span { font-size: 28px; }
+.club-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 25px; font-size: 12px; font-weight: 700; }
+.club-header nav a { text-decoration: none; }
+.club-header button { font: inherit; padding: 8px 12px; background: transparent; border: 1px solid var(--ink); cursor: pointer; }
+.club-hero { display: grid; grid-template-columns: 1.45fr 1fr; gap: 50px; padding: 85px 0 100px; align-items: center; }
+.club-kicker { font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.club h1 { font-family: Georgia, serif; font-size: clamp(52px, 7vw, 92px); line-height: .98; letter-spacing: -.065em; margin: 25px 0; }
+.club h1 em { color: var(--ink); font-size: 1em; }
+.club-hero p { font-size: 17px; line-height: 1.7; margin-bottom: 30px; }
+.club-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 36px; border: 2px solid var(--ink); padding: 16px 22px; background: var(--acid); box-shadow: 4px 4px 0 var(--ink); text-decoration: none; font-size: 14px; font-weight: 800; color: var(--ink); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.club-cta:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.club-cta:disabled { opacity: .6; cursor: default; transform: none; box-shadow: 2px 2px 0 var(--ink); }
+.club-cta span { font-size: 22px; }
+.club-poster { position: relative; background: var(--ink); color: var(--acid); border: 2px solid var(--ink); width: 100%; max-width: 380px; margin: 0 auto; text-align: center; padding: 23px 18px; transform: rotate(5deg); box-shadow: 9px 9px 0 #dfd6e2; }
+.poster-top, .poster-bottom { font-size: 9px; letter-spacing: .23em; font-weight: 700; }
+.club-poster strong { display: block; font-size: clamp(35px, 5vw, 64px); font-weight: 900; letter-spacing: -.055em; line-height: .95; margin: 12px 0 22px; }
+.poster-face { width: 140px; height: 135px; margin: 26px auto; position: relative; }
+.poster-face i { position: absolute; width: 23px; height: 40px; background: var(--acid); border-radius: 50%; top: 0; left: 26px; transform: rotate(-12deg); }
+.poster-face i:nth-child(2) { left: 90px; transform: rotate(12deg); }
+.poster-face b { display: block; position: absolute; width: 130px; height: 68px; border-radius: 0 0 100px 100px; background: var(--acid); bottom: 5px; left: 5px; }
+.poster-face b::after { content: ""; display: block; width: 70px; height: 15px; background: var(--ink); position: absolute; top: 0; left: 30px; }
+.poster-sticker { position: absolute; right: -20px; bottom: 60px; border: 2px solid var(--ink); border-radius: 50%; width: 95px; height: 95px; display: grid; place-content: center; background: #ff986d; color: var(--ink); font-size: 11px; font-weight: 900; transform: rotate(-17deg); }
+.club-ticker { background: var(--acid); color: var(--ink); border-block: 2px solid var(--ink); overflow: hidden; padding: 16px 0; font-weight: 900; font-size: 16px; letter-spacing: .06em; }
+.club-ticker span { display: block; width: max-content; animation: club-scroll 28s linear infinite; }
+@keyframes club-scroll { to { transform: translateX(-50%); } }
+.club-upload { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; padding: 85px 0; scroll-margin-top: 30px; }
+.club h2 { font-family: Georgia, serif; font-size: clamp(37px, 4.5vw, 60px); letter-spacing: -.05em; line-height: 1.03; margin: 20px 0 24px; }
+.upload-copy > p { max-width: 400px; font-size: 16px; line-height: 1.7; }
+.chain-note { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0; }
+.chain-note span { border-bottom: 2px solid #bcaec5; font-size: 9px; font-weight: 900; padding: 10px 0; }
+.upload-copy .upload-privacy { font-size: 12px; color: #685b71; }
+.upload-form { padding: 25px; border: 2px solid var(--ink); background: #fffef9; box-shadow: 7px 7px 0 #ded4e4; align-self: start; }
+.upload-drop { min-height: 220px; background: #eee9f2; border: 1px dashed #9985a5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 22px; cursor: pointer; }
+.upload-drop strong { font-family: Georgia, serif; font-size: 26px; font-weight: 400; letter-spacing: -.02em; }
+.upload-icon { font-size: 35px; line-height: 1; }
+.upload-drop > span:last-of-type { font-size: 12px; max-width: 100%; overflow-wrap: anywhere; }
+.upload-drop small { color: #685b71; font-size: 10px; }
+.upload-drop img { width: 100%; max-height: 220px; object-fit: contain; }
+.upload-form input { display: block; max-width: 100%; width: 100%; margin: 16px 0; font-size: 11px; }
+.generate-button { width: 100%; }
+.upload-status { min-height: 34px; font-size: 11px; line-height: 1.6; margin-top: 20px; overflow-wrap: anywhere; }
+.upload-status a { display: block; font-weight: 800; margin-top: 6px; }
+.club-gallery { border-top: 2px solid var(--ink); padding: 42px 0 90px; scroll-margin-top: 20px; }
+.club-section-title { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.club-section-title h2 { margin-bottom: 16px; }
+.club-section-title h2 span { color: #8f589e; }
+.club-stamp { font-size: 11px; font-weight: 900; line-height: 1.7; border: 2px solid var(--ink); padding: 10px 16px; transform: rotate(-6deg); }
+.club-helper { color: #685b71; font-size: 12px; line-height: 1.7; margin-bottom: 35px; }
+.club-empty { border: 1px dashed #ab9bb5; text-align: center; padding: 60px 25px; background: #efeaf1; }
+.empty-star { display: inline-block; font-size: 55px; color: #8f589e; }
+.club-empty h3 { font-size: 35px; margin-top: 15px; }
+.club-empty p { font-size: 14px; line-height: 1.7; max-width: 440px; margin: 15px auto 25px; }
+.club-empty a { font-size: 13px; font-weight: 800; }
+.meme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+.meme-card { background: #fffef9; border: 2px solid var(--ink); box-shadow: 5px 5px 0 #ded4e4; scroll-margin-top: 30px; }
+.meme-photo { background: #e7e0e9; position: relative; border-bottom: 2px solid var(--ink); }
+.meme-photo img { width: 100%; height: 310px; object-fit: contain; display: block; }
+.meme-photo > p { padding: 60px 20px; text-align: center; margin: 0; }
+.photo-number { position: absolute; top: 15px; left: 15px; background: var(--acid); border: 1px solid var(--ink); padding: 6px 10px; font-size: 9px; font-weight: 900; }
+.caption-choices { padding: 0 22px; }
+.caption-choice { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding: 22px 0; border-bottom: 1px solid #e0d7e4; }
+.caption-index { font-size: 10px; font-weight: 800; padding-top: 5px; color: #8c7599; }
+.caption-choice p { font-family: Georgia, serif; font-size: 22px; letter-spacing: -.025em; line-height: 1.35; margin-bottom: 15px; overflow-wrap: anywhere; }
+.vote-controls { display: flex; align-items: center; gap: 8px; }
+.vote-controls button { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; padding: 9px 10px; background: transparent; border: 1px solid #c1b3c9; border-radius: 3px; cursor: pointer; }
+.vote-controls button b { font-size: 10px; font-weight: 400; }
+.vote-controls button:hover { background: #eee9f2; }
+.vote-controls button[aria-pressed="true"] { background: var(--acid); border-color: var(--ink); }
+.vote-controls button:last-child[aria-pressed="true"] { background: #ffccb3; }
+.vote-controls button:disabled { opacity: .55; cursor: wait; }
+.vote-score { min-width: 30px; text-align: center; font-size: 14px; font-weight: 800; }
+.caption-choice .vote-error { font: 11px/1.5 Arial, sans-serif; color: #9c3131; margin: 8px 0 0; }
+.image-description { padding: 16px 22px; font-size: 11px; color: #685b71; }
+.image-description summary { cursor: pointer; }
+.image-description p { line-height: 1.7; margin: 12px 0 0; }
+.club-message { padding: 22px; background: #ffdfce; border: 1px solid var(--ink); line-height: 1.7; }
+.club-footer { border-top: 2px solid var(--ink); color: var(--ink); font-size: 10px; padding: 25px 0 40px; }
+@media (max-width: 800px) { .club-hero { gap: 28px; } .club-upload { gap: 30px; } .poster-sticker { right: -10px; width: 75px; height: 75px; font-size: 9px; } .meme-grid { gap: 20px; } .vote-controls button { padding: 8px; } .vote-controls button span { display: none; } }
+@media (max-width: 620px) { .club-header { align-items: flex-start; } .club-header nav { gap: 12px; justify-content: flex-end; max-width: 210px; font-size: 11px; } .club-hero { grid-template-columns: 1fr; padding: 55px 0 60px; gap: 45px; } .club-poster { max-width: 250px; } .club-poster strong { font-size: 46px; } .poster-face { margin: 18px auto; } .club-upload { grid-template-columns: 1fr; padding: 60px 0; } .meme-grid { grid-template-columns: 1fr; gap: 30px; } .meme-photo img { height: 280px; } .club-stamp { font-size: 9px; padding: 8px; } .vote-controls button span { display: inline; } .club-footer { flex-direction: column; gap: 10px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .club-ticker span { animation: none; } .club-cta { transition: none; } }
+.daily-prompt { margin-top: 24px; padding: 18px 20px; border-left: 4px solid var(--ink); background: #e9edda; max-width: 430px; }
+.daily-prompt p { font-family: Georgia, serif; font-size: 22px; margin: 12px 0; line-height: 1.3; }
+.daily-prompt small { color: #685b71; font-size: 11px; line-height: 1.5; }
+.theme-label { display: block; font-size: 12px; font-weight: 800; margin: 20px 0 8px; }
+.upload-form select { width: 100%; padding: 12px; border: 1px solid var(--ink); background: #f9f5ec; color: var(--ink); font: inherit; font-size: 13px; margin-bottom: 20px; }
+.copy-caption { margin-top: 12px; }
+.copy-caption button { border: 0; border-bottom: 1px solid #a394ad; background: none; color: #685b71; padding: 3px 0; font-size: 10px; cursor: pointer; }
+.copy-caption span { display: block; font-size: 10px; line-height: 1.5; margin-top: 6px; }
