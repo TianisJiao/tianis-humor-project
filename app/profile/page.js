@@ -23,7 +23,7 @@ export default async function Profile({ searchParams }) {
 
   return (
     <main className="shell auth-page">
-      <div className="page-nav"><Link href="/">← Collection</Link><Link href="/members">Members studio →</Link></div>
+      <div className="page-nav"><Link href="/members#upload">← Generate captions</Link><Link href="/members">Members studio →</Link></div>
       <span className="overline">YOUR SPACE / WEEK 03</span>
       <h1>Your profile<span className="accent">.</span></h1>
       {needsNames && !error && <p className="notice" role="status">Welcome! Add your first and last name to complete your profile and enter the studio.</p>}

@@ -33,7 +33,7 @@ function MemeGallery({ images, error }) {
     <p className="club-helper">Vote on each punchline. Tap your selected vote again to undo it. Showing the latest 20 images.</p>
     {error ? <p className="club-message" role="alert">{error}</p> : images.length === 0 ? <div className="club-empty"><span className="empty-star" aria-hidden="true">✳</span><h3>A room full of potential.</h3><p>No images yet. Upload the first one and give this club something to laugh about.</p><a href="#upload">Take the mic ↗</a></div> : <div className="meme-grid">{images.map((image, index) => <article className="meme-card" key={image.id} id={`meme-${image.id}`}>
       <div className="meme-photo">{image.url ? <Image src={image.url} alt={image.description} width={700} height={520} unoptimized /> : <p>Image unavailable. Refresh to try again.</p>}<span className="photo-number">FRAME {String(index + 1).padStart(2, "0")}</span></div>
-      <div className="caption-choices">{image.captions.map(caption => <div className="caption-choice" key={caption.id}><span className="caption-index">0{caption.position}</span><div><p>{caption.text}</p><VoteControls captionId={caption.id} initial={caption.votes} /><CopyCaption text={caption.text} /></div></div>)}</div>
+      <div className="caption-choices">{image.captions.map(caption => <div className="caption-choice" key={caption.id}><span className="caption-index">0{caption.position}</span><div><p>{caption.text}</p><VoteControls captionId={caption.id} initial={caption.votes} /><CopyCaption text={caption.text} imageUrl={image.url} captionId={caption.id} /></div></div>)}</div>
       <details className="image-description"><summary>What the AI saw ↗</summary><p>{image.description}</p></details>
     </article>)}</div>}
   </section>;
@@ -52,7 +52,7 @@ export default async function Members() {
   return <main className="club">
     <a className="club-skip" href="#upload">Skip to upload</a>
     <div className="club-wrap">
-      <header className="club-header"><Link className="club-logo" href="/members">THE PUNCHLINE<br /><span>CLUB ✳</span></Link><nav aria-label="Club navigation"><Link href="/">Collection</Link><Link href="/profile">{profile.first_name}&apos;s profile ↗</Link><form action="/auth/signout" method="post"><button>Sign out</button></form></nav></header>
+      <header className="club-header"><Link className="club-logo" href="/members">THE PUNCHLINE<br /><span>CLUB ✳</span></Link><nav aria-label="Club navigation"><Link href="/members#upload">Generate captions</Link><Link href="/profile">{profile.first_name}&apos;s profile ↗</Link><form action="/auth/signout" method="post"><button>Sign out</button></form></nav></header>
       <section className="club-hero"><div><span className="club-kicker">COLUMBIA × NYC / VOL. 04</span><h1>Good image.<br /><em>Bad influence.</em></h1><p>Dorm chaos. Subway drama. Weekend side quests.<br />Turn your ordinary day into the group chat&apos;s next meme.</p><a className="club-cta" href="#upload">Make something funny <span>↗</span></a></div><div className="club-poster" aria-hidden="true"><span className="poster-top">EST. JUST NOW</span><div className="poster-face"><i /><i /><b /></div><strong>PLEASE<br />DO LAUGH.</strong><span className="poster-bottom">CAMPUS TO CITY.</span><span className="poster-sticker">100%<br />SUBJECTIVE</span></div></section>
     </div>
     <div className="club-ticker" aria-hidden="true"><span>ONE IMAGE ✳ THREE PUNCHLINES ✳ YOUR VERDICT ✳ ONE IMAGE ✳ THREE PUNCHLINES ✳ YOUR VERDICT ✳ </span></div>
