@@ -164,3 +164,47 @@ footer { border-top: 1px solid #d8d1c3; padding: 23px 0 34px; display: flex; jus
 .meme-share-actions a { color: #685b71; font-size: 12px; padding: 8px 0; text-decoration: underline; }
 .copy-caption button { font-size: 12px; min-height: 36px; }
 .copy-caption button:disabled { opacity: .6; cursor: wait; }
+
+/* NYC Side Quests: an illustrated atlas, deliberately not a navigation map. */
+.nyc-explorer { padding: 45px 0 36px; color: #403c30; }
+.atlas-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+.atlas-heading h1 { font: 500 clamp(36px, 5vw, 68px)/1.08 Georgia, serif; letter-spacing: -.045em; margin: 14px 0; }
+.atlas-heading h1 span { color: #b9684d; }
+.atlas-heading p { font-size: 16px; line-height: 1.5; }
+.atlas-stamp { flex-shrink: 0; border: 2px dashed #a46e54; color: #a46e54; padding: 16px; font: 11px/1.7 monospace; transform: rotate(5deg); text-align: center; }
+.atlas-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr); gap: 28px; align-items: start; }
+.atlas-map { position: relative; aspect-ratio: 800/650; border: 8px solid #ede0c6; outline: 1px solid #8d8067; box-shadow: 6px 7px 0 #dacdb5; border-radius: 3px; overflow: hidden; }
+.atlas-land { width: 100%; height: 100%; display: block; }
+.atlas-pin { position: absolute; width: 17%; transform: translate(-50%, -50%); border: 0; background: transparent; cursor: pointer; padding: 0; border-radius: 50%; }
+.atlas-pin svg { width: 100%; display: block; transition: transform .2s; filter: drop-shadow(0 3px 0 #fff9e3); }
+.atlas-pin:hover svg, .atlas-pin.is-selected svg { transform: translateY(-7px) rotate(-3deg); }
+.atlas-pin.is-selected { background: #fff5cc99; }
+.atlas-pin span { position: absolute; bottom: -3px; left: 40%; background: #fff7e5; color: #6e4637; border: 1px solid #a56c4f; border-radius: 50%; font: bold 12px/23px monospace; width: 25px; height: 25px; }
+.atlas-pin.is-selected span { color: white; background: #ab6245; }
+.atlas-map-note { position: absolute; bottom: 8px; left: 10px; font: 10px/1.4 Arial, sans-serif; background: #f8f0dbed; padding: 5px 8px; color: #65583f; }
+.atlas-ferry { animation: atlas-drift 7s ease-in-out infinite alternate; }
+@keyframes atlas-drift { to { transform: translate(146px, 455px); } }
+.atlas-card { background: #fbf5e8; border: 1px solid #ad9e80; box-shadow: 4px 5px 0 #e7dac2; padding: 25px; }
+.atlas-card-art { display: flex; align-items: center; justify-content: space-around; margin: 12px 0; min-height: 100px; background: #eee1c7; border: 1px dashed #af9975; }
+.atlas-card-art svg { width: 120px; height: 110px; }
+.atlas-card-art span { font: 10px/1.7 monospace; transform: rotate(-8deg); color: #98634e; }
+.atlas-card h2 { font: 30px/1.1 Georgia, serif; letter-spacing: -.025em; margin: 15px 0 8px; }
+.atlas-area { font: 12px/1.5 Arial, sans-serif; color: #705e46; }
+.atlas-fact { font-size: 14px; line-height: 1.65; margin: 16px 0 8px; }
+.atlas-source { color: #705e46; font-size: 12px; text-underline-offset: 4px; }
+.atlas-prompt { font: italic 17px/1.5 Georgia, serif; border-top: 1px solid #ddcfb4; margin-top: 18px; padding-top: 16px; }
+.atlas-primary { display: block; width: 100%; background: #4a5d50; color: #fff8e8; border: 1px solid #314236; padding: 14px 16px; margin: 16px 0 10px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 3px 3px 0 #cabda0; }
+.atlas-primary:disabled { opacity: .6; cursor: wait; }
+.atlas-secondary { display: inline-block; font-size: 13px; color: #65583f; padding: 8px 0; text-underline-offset: 4px; }
+.atlas-note { font-size: 11px; line-height: 1.5; color: #72644f; margin-top: 12px; }
+.atlas-stop-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 23px; }
+.atlas-stop-list button { background: #f4ecd9; border: 1px solid #a6977a; color: #514731; padding: 10px 13px; font: 12px/1.4 Arial, sans-serif; cursor: pointer; }
+.atlas-stop-list button span { color: #a26448; padding-right: 8px; font-family: monospace; }
+.atlas-stop-list button[aria-pressed="true"] { background: #4a5d50; color: #fff8e8; }
+.atlas-stop-list button[aria-pressed="true"] span { color: #f4d7a4; }
+.atlas-upload { border-top: 1px solid #a6977a; margin-top: 22px; }
+.upload-form select { width: 100%; padding: 12px; border: 1px solid #a394ad; background: #faf6ed; color: #30223d; margin: 8px 0 14px; font-size: 14px; }
+.nyc-explorer button:focus-visible { outline: 3px solid #a74928; outline-offset: 4px; }
+#explore, #upload, #gallery { scroll-margin-top: 24px; }
+@media (max-width: 800px) { .atlas-layout { grid-template-columns: 1fr; } .atlas-card { padding: 22px; } .atlas-heading { align-items: start; } .atlas-stamp { padding: 8px; font-size: 9px; } .atlas-pin span { font-size: 10px; width: 21px; height: 21px; line-height: 19px; } }
+@media (prefers-reduced-motion: reduce) { .atlas-ferry { animation: none; } .atlas-pin svg { transition: none; } }

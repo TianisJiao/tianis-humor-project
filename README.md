@@ -75,3 +75,13 @@ The target user is Sam: a chronically online Columbia College junior, originally
 Run `npm run test:chain` to verify two sequential calls, exact prompt capture, theme handling, and absence of keys/image bytes in prompt history using mocked provider responses. `npm run test:rls` also verifies prompt persistence and owner-only prompt access. Online LLM generation is still a separate required check.
 
 **PM feedback remains pending.** During the Feedback Group session, observe whether Sam's tasks are clear: choose a photo/context, generate, vote, and copy a caption. Record the PM's actual comments, prioritize the resulting changes, implement them, and retest before submission. No PM feedback or revision is claimed until that session occurs.
+
+## Week 5 — NYC Side Quests
+
+The member studio now opens with an illustrated travel atlas of six NYC landmarks. Select a building or its keyboard-accessible list button to explore a sourced historical fact and a daily photo mission. Map positions are decorative rather than navigational. A daily featured stop rotates by the day of the month in New York time.
+
+Users can prepare an original landmark illustration as a PNG, or upload their own photo, then generate three captions and vote in the existing shared gallery. Illustration preparation alone does not call the model; the user must press Generate 3 captions. Optional landmark inspiration is validated against the curated list on the server and included, with its source, in the privately saved exact prompt. It is not a claim that arbitrary uploaded photos depict that place. Existing published images and votes are preserved; no SQL migration or additional API key is needed.
+
+The atlas uses code-drawn SVG buildings, muted paper/water colors, a small animated ferry, responsive cards and reduced-motion support. The gallery remains a shared collection of recent uploads, not a geographic filter. Generated captions are humor, not verified historical or visitor information. Photos are still limited to 2 MB and ten uploads per day.
+
+Feedback provenance: the user requested a vintage hand-drawn NYC explorer after seeing a classmate's interactive campus tree map. Earlier TA feedback asked to remove the separate introduction page. No additional PM/group feedback or production verification is claimed here. At the Feedback Group meeting, observe whether users can discover a stop, choose an illustration/photo, generate, vote, and export without instructions; record their actual feedback before further iteration.

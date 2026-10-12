@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "../../lib/supabase/server";
+import { landmarkById } from "../../lib/nyc-landmarks.mjs";
 import { generateCaptions } from "../../lib/caption-chain";
 import { imageType, MAX_IMAGE_BYTES } from "../../lib/meme-validation.mjs";
 
@@ -17,6 +18,8 @@ export async function uploadMeme(_previous, formData) {
   if (!process.env.OPENAI_API_KEY) return { error: "Caption generation is not configured yet. Please try again later." };
   const theme = String(formData.get("theme") ?? "campus");
   if (!["campus", "dorm", "city", "weekend"].includes(theme)) return { error: "Choose a caption theme." };
+  const landmarkId = String(formData.get("landmark") ?? "");
+  if (landmarkId && !landmarkById(landmarkId)) return { error: "Choose a landmark from the list." };
   const file = formData.get("image");
   if (!(file instanceof File) || !file.size || file.size > MAX_IMAGE_BYTES) return { error: "Choose a PNG, JPEG, or WebP image of 2 MB or less." };
   const bytes = new Uint8Array(await file.arrayBuffer());
@@ -33,7 +36,7 @@ export async function uploadMeme(_previous, formData) {
     const { error } = await supabase.storage.from("meme-images").upload(image.storage_path, bytes, { contentType: type.mime, upsert: false });
     if (error) throw new Error("Storage upload failed");
     uploaded = true;
-    const generated = await generateCaptions(bytes, type.mime, theme);
+    const generated = await generateCaptions(bytes, type.mime, theme, landmarkId);
     const { error: saveError } = await supabase.rpc("publish_meme", {
       image_id: image.id, image_description: generated.description, caption_texts: generated.captions,
       generation_prompts: generated.prompts, generation_model: generated.model, generation_version: generated.version,
