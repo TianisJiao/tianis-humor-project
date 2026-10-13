@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { drawPostcard, POSTCARD_WIDTH, POSTCARD_HEIGHT } from "../../lib/postcard-layout.mjs";
 
 // Export a self-contained image: no expiring Storage URL is shared.
 async function renderMeme(imageUrl, text) {
@@ -13,32 +14,9 @@ async function renderMeme(imageUrl, text) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("canvas unavailable");
-    const width = 1080;
-    const padding = 64;
-    const photoHeight = Math.round(width * photo.naturalHeight / photo.naturalWidth);
-    const font = "bold 44px Arial, sans-serif";
-    ctx.font = font;
-    const lines = [];
-    let line = "";
-    // Character wrapping also handles long words and languages without spaces.
-    for (const char of Array.from(text)) {
-      if (char === "\n" || ctx.measureText(line + char).width > width - padding * 2) {
-        lines.push(line.trim());
-        line = char === "\n" ? "" : char;
-      } else line += char;
-    }
-    if (line.trim()) lines.push(line.trim());
-    canvas.width = width;
-    canvas.height = photoHeight + padding * 2 + lines.length * 58 + 62;
-    ctx.fillStyle = "#faf6ed";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(photo, 0, 0, width, photoHeight);
-    ctx.fillStyle = "#30223d";
-    ctx.font = font;
-    ctx.textBaseline = "top";
-    lines.forEach((value, index) => ctx.fillText(value, padding, photoHeight + padding + index * 58));
-    ctx.font = "22px Arial, sans-serif";
-    ctx.fillText("THE PUNCHLINE CLUB · AI-GENERATED CAPTION", padding, canvas.height - 52);
+    canvas.width = POSTCARD_WIDTH;
+    canvas.height = POSTCARD_HEIGHT;
+    drawPostcard(ctx, photo, text);
     return await new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("export failed")), "image/png"));
   } finally { URL.revokeObjectURL(photoUrl); }
 }
@@ -53,9 +31,9 @@ export default function CopyCaption({ text, imageUrl, captionId }) {
     setMessage("");
     try {
       const blob = await renderMeme(imageUrl, text);
-      const file = new File([blob], `punchline-${captionId}.png`, { type: "image/png" });
+      const file = new File([blob], `nyc-postcard-${captionId}.png`, { type: "image/png" });
       setAsset({ blob, file, url: URL.createObjectURL(blob) });
-      setMessage("Ready: photo + this caption. Share or download below.");
+      setMessage("Your postcard is ready: your photo + this caption. Download it or open your device’s share menu.");
     } catch { setMessage("Couldn't prepare the image. Refresh this page and try again."); }
     finally { setBusy(false); }
   }
@@ -65,18 +43,18 @@ export default function CopyCaption({ text, imageUrl, captionId }) {
         setMessage("File sharing isn't available in this browser. Use Download PNG for Instagram, WeChat, or another platform.");
         return;
       }
-      await navigator.share({ files: [asset.file], title: "The Punchline Club" });
+      await navigator.share({ files: [asset.file], title: "A postcard from NYC Side Quests" });
       setMessage("Share menu completed.");
     } catch (error) {
-      setMessage(error.name === "AbortError" ? "Sharing canceled. Your meme is still ready." : "Couldn't share here. Download the PNG instead.");
+      setMessage(error.name === "AbortError" ? "Sharing was canceled or unavailable. Your postcard is still ready to download." : "Couldn't share here. Download the PNG instead.");
     }
   }
   return <div className="copy-caption">
-    {!asset ? <button type="button" disabled={busy || !imageUrl} onClick={prepare}>{busy ? "Preparing meme…" : "Share this meme ↗"}</button> : <>
+    {!asset ? <button type="button" disabled={busy || !imageUrl} onClick={prepare}>{busy ? "Making postcard…" : "Share · make a postcard ↗"}</button> : <>
       {/* Preparation is separate so sharing runs directly on a user click. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="meme-export-preview" src={asset.url} alt="Share preview: photo with the selected caption" />
-      <div className="meme-share-actions"><a href={asset.url} download={asset.file.name} onClick={() => setMessage("PNG download requested. Upload the saved image to your favorite platform.")}>Download PNG</a><button type="button" onClick={share}>Share to apps ↗</button></div>
+      <img className="meme-export-preview" src={asset.url} alt="New York postcard preview with your complete photo and selected caption" />
+      <div className="meme-share-actions"><a href={asset.url} download={asset.file.name} onClick={() => setMessage("PNG download requested. Upload the saved image to your favorite platform.")}>Download postcard PNG</a><button type="button" onClick={share}>Open share menu ↗</button></div>
     </>}
     <span role="status" aria-live="polite">{message}</span>
   </div>;

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "../../lib/supabase/server";
 import NYCExplorer from "./nyc-explorer";
+import { NYC_LANDMARKS } from "../../lib/nyc-landmarks.mjs";
 import VoteControls from "./vote-controls";
 import CopyCaption from "./copy-caption";
 
@@ -46,7 +47,7 @@ export default async function Members() {
   const { data: profile, error } = await supabase.from("profiles").select("first_name, last_name").eq("id", data.user.id).single();
   if (error || !profile?.first_name?.trim() || !profile?.last_name?.trim()) redirect("/profile?setup=1");
   const gallery = await loadGallery(supabase, data.user.id);
-  const dailyIndex = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", day: "numeric" }).format(new Date())) % 6;
+  const dailyIndex = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", day: "numeric" }).format(new Date())) % NYC_LANDMARKS.length;
   return <main className="club">
     <a className="club-skip" href="#upload">Skip to upload</a>
     <div className="club-wrap">

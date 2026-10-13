@@ -235,3 +235,26 @@ footer { border-top: 1px solid #d8d1c3; padding: 23px 0 34px; display: flex; jus
 @keyframes atlas-drift { to { transform: translate(179px, 567px); } }
 @media (max-width: 800px) { .atlas-layout { grid-template-columns: 1fr; } .atlas-card-art { min-height: 150px; } .atlas-card { padding: 23px; } }
 @media (max-width: 480px) { .atlas-pin { width: 17%; } .atlas-pin .atlas-pin-name { font-size: 7px; letter-spacing: 0; padding: 3px; } .atlas-pin .atlas-pin-number { width: 16px; height: 16px; line-height: 14px; left: calc(50% - 8px); font-size: 8px; } .atlas-map-note { font-size: 7px; bottom: 12px; right: 12px; } .atlas-heading h1 { font-size: 37px; } }
+
+/* Five-borough atlas and postcard workspace. */
+.borough-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.borough-filters button { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #b7a98b; background: #fcf5e8; color: #5b503c; padding: 10px 12px; border-radius: 4px; font: 12px Arial, sans-serif; cursor: pointer; }
+.borough-filters i { display: block; width: 13px; height: 13px; border-radius: 50%; border: 1px solid #8c785b; }
+.borough-filters b { font: 10px monospace; opacity: .7; }
+.borough-filters button[aria-pressed="true"] { border-color: #4a5d50; box-shadow: inset 0 -3px #4a5d50; background: #efe9da; }
+.atlas-map-frame { min-width: 0; }
+.atlas-map-controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #b9aa8b; border-bottom: 0; background: #f4ead5; color: #6a5b41; font: 11px Arial, sans-serif; }
+.atlas-map-controls > div { display: flex; align-items: center; gap: 9px; }
+.atlas-map-controls button { width: 31px; height: 31px; border: 1px solid #b5a585; background: #fff8e9; cursor: pointer; color: #5a4c37; font-size: 19px; }
+.atlas-map-controls button:disabled { opacity: .4; cursor: default; }
+.atlas-map { aspect-ratio: 960/820; overflow: auto; border-width: 4px; overscroll-behavior: contain; }
+.atlas-map-sheet { position: relative; aspect-ratio: 960/820; min-width: 100%; }
+.atlas-pin { width: 8.5%; min-width: 40px; padding-bottom: 17px; }
+.atlas-pin .atlas-pin-name { font-size: 7px; letter-spacing: 0; max-width: 110px; padding: 3px; }
+.atlas-pin .atlas-pin-number { bottom: 17px; font-size: 8px; width: 16px; height: 16px; line-height: 14px; left: calc(50% - 8px); }
+.atlas-map-caption { font-size: 11px; line-height: 1.5; color: #74664e; margin: 12px 0 0; }
+.borough-badge { display: inline-block; padding: 4px 8px; border-radius: 3px; color: #53472e; font: 10px Arial, sans-serif; margin: 0 5px 5px 0; }
+.atlas-card { align-self: start; }
+@keyframes atlas-drift { to { transform: translate(365px, 607px); } }
+.meme-export-preview { max-width: 100%; }
+@media (max-width: 480px) { .atlas-pin { width: 9%; min-width: 33px; } .atlas-pin .atlas-pin-name { font-size: 6px; max-width: 72px; line-height: 1.15; } .borough-filters button { font-size: 11px; padding: 9px; } .atlas-map-controls { font-size: 10px; } }
