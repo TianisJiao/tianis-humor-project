@@ -20,6 +20,8 @@ export async function uploadMeme(_previous, formData) {
   if (!["campus", "dorm", "city", "weekend"].includes(theme)) return { error: "Choose a caption theme." };
   const landmarkId = String(formData.get("landmark") ?? "");
   if (landmarkId && !landmarkById(landmarkId)) return { error: "Choose a landmark from the list." };
+  const mode = String(formData.get("caption_mode") ?? "auto");
+  if (!["auto", "meme", "scenery"].includes(mode)) return { error: "Choose Auto, Meme, or Scenery." };
   const file = formData.get("image");
   if (!(file instanceof File) || !file.size || file.size > MAX_IMAGE_BYTES) return { error: "Choose a PNG, JPEG, or WebP image of 2 MB or less." };
   const bytes = new Uint8Array(await file.arrayBuffer());
@@ -36,14 +38,14 @@ export async function uploadMeme(_previous, formData) {
     const { error } = await supabase.storage.from("meme-images").upload(image.storage_path, bytes, { contentType: type.mime, upsert: false });
     if (error) throw new Error("Storage upload failed");
     uploaded = true;
-    const generated = await generateCaptions(bytes, type.mime, theme, landmarkId);
+    const generated = await generateCaptions(bytes, type.mime, theme, landmarkId, mode);
     const { error: saveError } = await supabase.rpc("publish_meme", {
       image_id: image.id, image_description: generated.description, caption_texts: generated.captions,
       generation_prompts: generated.prompts, generation_model: generated.model, generation_version: generated.version,
     });
     if (saveError) throw new Error("Caption save failed");
     revalidatePath("/members");
-    return { success: "Three new punchlines are ready. Find your image at the top of the gallery.", imageId: image.id };
+    return { success: `${generated.captionStyle === "scenery" ? "Scenery · three poetic captions" : "Meme · three funny captions"} are ready. Find your image at the top of the gallery.`, imageId: image.id };
   } catch (error) {
     console.error("Meme generation failed", { imageId: image.id, message: error.message });
     // Only unpublished objects can be removed; published images remain consistent.

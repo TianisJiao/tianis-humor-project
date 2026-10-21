@@ -12,7 +12,7 @@ export const maxDuration = 120;
 
 async function loadGallery(supabase, userId) {
   const { data: images, error } = await supabase.from("meme_images")
-    .select("id, storage_path, description, created_at, meme_captions(id, text, position)")
+    .select("id, storage_path, description, caption_style, created_at, meme_captions(id, text, position)")
     .eq("status", "ready").order("created_at", { ascending: false }).limit(20);
   if (error) return { images: [], error: "The gallery couldn't load. Please try again shortly." };
   const ids = images.flatMap(image => image.meme_captions.map(c => c.id));
@@ -30,11 +30,11 @@ async function loadGallery(supabase, userId) {
 
 function MemeGallery({ images, error }) {
   return <section className="club-gallery" id="gallery" aria-labelledby="gallery-heading">
-    <div className="club-section-title"><div><span className="club-kicker">03 / POSTCARDS FROM THE COMMUNITY</span><h2 id="gallery-heading">The postcard club<span>.</span></h2></div><span className="club-stamp">↑ FUNNY<br />↓ TRY AGAIN</span></div>
-    <p className="club-helper">Vote on each punchline. Tap your selected vote again to undo it. Showing the latest 20 images.</p>
-    {error ? <p className="club-message" role="alert">{error}</p> : images.length === 0 ? <div className="club-empty"><span className="empty-star" aria-hidden="true">✳</span><h3>A room full of potential.</h3><p>No images yet. Upload the first one and give this club something to laugh about.</p><a href="#upload">Take the mic ↗</a></div> : <div className="meme-grid">{images.map((image, index) => <article className="meme-card" key={image.id} id={`meme-${image.id}`}>
+    <div className="club-section-title"><div><span className="club-kicker">03 / POSTCARDS FROM THE COMMUNITY</span><h2 id="gallery-heading">The postcard club<span>.</span></h2></div><span className="club-stamp">MEMES &amp;<br />SCENIC MOMENTS</span></div>
+    <p className="club-helper">Rate each AI caption: Funny / Pass for memes, Like / Dislike for scenic images. Tap your selected vote again to undo it. Showing the latest 20 images.</p>
+    {error ? <p className="club-message" role="alert">{error}</p> : images.length === 0 ? <div className="club-empty"><span className="empty-star" aria-hidden="true">✳</span><h3>A room full of potential.</h3><p>No images yet. Upload the first one and give this club a moment to remember.</p><a href="#upload">Create a postcard ↗</a></div> : <div className="meme-grid">{images.map((image, index) => <article className="meme-card" key={image.id} id={`meme-${image.id}`}>
       <div className="meme-photo">{image.url ? <Image src={image.url} alt={image.description} width={700} height={520} unoptimized /> : <p>Image unavailable. Refresh to try again.</p>}<span className="photo-number">FRAME {String(index + 1).padStart(2, "0")}</span></div>
-      <div className="caption-choices">{image.captions.map(caption => <div className="caption-choice" key={caption.id}><span className="caption-index">0{caption.position}</span><div><p>{caption.text}</p><VoteControls captionId={caption.id} initial={caption.votes} /><CopyCaption text={caption.text} imageUrl={image.url} captionId={caption.id} /></div></div>)}</div>
+      <p className="caption-style-badge">{image.caption_style === "scenery" ? "SCENERY · POETIC CAPTIONS" : "MEME · FUNNY CAPTIONS"}</p><div className="caption-choices">{image.captions.map(caption => <div className="caption-choice" key={caption.id}><span className="caption-index">0{caption.position}</span><div><p>{caption.text}</p><VoteControls captionId={caption.id} initial={caption.votes} captionStyle={image.caption_style} /><CopyCaption text={caption.text} imageUrl={image.url} captionId={caption.id} /></div></div>)}</div>
       <details className="image-description"><summary>What the AI saw ↗</summary><p>{image.description}</p></details>
     </article>)}</div>}
   </section>;

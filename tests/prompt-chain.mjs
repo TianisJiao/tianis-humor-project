@@ -7,11 +7,13 @@ registerHooks({ resolve(specifier, context, nextResolve) {
 }});
 const {generateCaptions}=await import('../lib/caption-chain.js');
 const calls=[];
+let detectedType='meme';
+let badAnalysis=false;
 process.env.OPENAI_API_KEY='test-placeholder';
 process.env.OPENAI_MODEL='test-vision-model';
 globalThis.fetch=async (_url,request)=>{
  const body=JSON.parse(request.body); calls.push(body);
- const text=calls.length%2===1?'A cat sits in a cardboard box.':JSON.stringify({captions:['Rent controlled.','My office has walls.','If I fits, I commits.']});
+ const text=calls.length%2===1?JSON.stringify({description: detectedType === 'scenery' ? 'Warm light falls on a quiet city skyline.' : 'A cat sits in a cardboard box.', detected_type: badAnalysis ? 'unknown' : detectedType, reason:'Visible setting and subjects.'}):JSON.stringify({captions:['Rent controlled.','My office has walls.','If I fits, I commits.']});
  return {ok:true,json:async()=>({status:'completed',output:[{type:'message',content:[{type:'output_text',text}]}]})};
 };
 const result=await generateCaptions(new Uint8Array([137,80,78,71]),'image/png','dorm');
@@ -43,5 +45,29 @@ assert.ok(landmarkResult.prompts[1].user_prompt.includes('New York Public Librar
 assert.ok(landmarkResult.prompts[1].user_prompt.includes('https://www.nypl.org/about/locations/schwarzman/facts'));
 assert.equal(landmarkResult.prompts[1].user_prompt,calls[3].input[0].content[0].text);
 assert.ok(landmarkResult.prompts[1].instructions.includes('Do not invent opening hours'));
-assert.equal(landmarkResult.version,'nyc-side-quests-v2');
-console.log('PASS: sequential image-to-description-to-caption chain; exact prompt/model/format capture; no image bytes or API key in saved prompts; theme validation. Provider responses are mocked.');
+assert.equal(landmarkResult.version,'nyc-adaptive-captions-v3');
+assert.equal(result.captionStyle,'meme');
+assert.equal(result.prompts[0].requested_mode,'auto');
+assert.deepEqual(result.prompts[0].response_format,calls[0].text.format);
+detectedType='scenery';
+const scenic=await generateCaptions(new Uint8Array([137,80,78,71]),'image/png','city');
+assert.equal(scenic.captionStyle,'scenery');
+assert.equal(scenic.prompts[0].analysis.detected_type,'scenery');
+assert.ok(scenic.prompts[1].instructions.includes('Do not force humor'));
+assert.ok(scenic.prompts[1].user_prompt.includes('poetic travel captions'));
+assert.equal(calls.at(-1).input[0].content.length,1);
+const funnyOverride=await generateCaptions(new Uint8Array([137,80,78,71]),'image/png','city','','meme');
+assert.equal(funnyOverride.detectedType,'scenery');
+assert.equal(funnyOverride.captionStyle,'meme');
+assert.ok(funnyOverride.prompts[1].user_prompt.includes('funny meme captions'));
+detectedType='meme';
+const poeticOverride=await generateCaptions(new Uint8Array([137,80,78,71]),'image/png','city','','scenery');
+assert.equal(poeticOverride.detectedType,'meme');
+assert.equal(poeticOverride.captionStyle,'scenery');
+const before=calls.length;
+await assert.rejects(()=>generateCaptions(new Uint8Array(),'image/png','city','','unknown'));
+assert.equal(calls.length,before);
+badAnalysis=true;
+await assert.rejects(()=>generateCaptions(new Uint8Array(),'image/png','city'));
+assert.equal(calls.length,before+1); // Invalid classification must never reach generation.
+console.log('PASS: automatic meme/scenery routing, both manual overrides, invalid classification rejection; sequential image-to-description-to-caption chain; exact prompt/model/format capture; no image bytes or API key in saved prompts; theme validation. Provider responses are mocked.');

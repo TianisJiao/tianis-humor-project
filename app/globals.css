@@ -258,3 +258,5 @@ footer { border-top: 1px solid #d8d1c3; padding: 23px 0 34px; display: flex; jus
 @keyframes atlas-drift { to { transform: translate(365px, 607px); } }
 .meme-export-preview { max-width: 100%; }
 @media (max-width: 480px) { .atlas-pin { width: 9%; min-width: 33px; } .atlas-pin .atlas-pin-name { font-size: 6px; max-width: 72px; line-height: 1.15; } .borough-filters button { font-size: 11px; padding: 9px; } .atlas-map-controls { font-size: 10px; } }
+
+.caption-style-badge { margin: 0; padding: 14px 22px 0; font-size: .7rem; letter-spacing: .08em; font-weight: 700; color: #645440; }

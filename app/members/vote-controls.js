@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { voteOnCaption } from "./actions";
 
-export default function VoteControls({ captionId, initial }) {
+export default function VoteControls({ captionId, initial, captionStyle = "meme" }) {
+  const scenic = captionStyle === "scenery";
   const [vote, setVote] = useState(initial);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -18,8 +19,8 @@ export default function VoteControls({ captionId, initial }) {
     });
   }
   return <div className="vote-area"><div className="vote-controls" aria-label="Rate this caption" aria-busy={pending}>
-    <button type="button" aria-label="Upvote caption" aria-pressed={vote.mine === 1} disabled={pending} onClick={() => submit(1)}>↑ <span>Funny</span> <b>{vote.upvotes}</b></button>
+    <button type="button" aria-label={scenic ? "Like caption" : "Upvote funny caption"} aria-pressed={vote.mine === 1} disabled={pending} onClick={() => submit(1)}>↑ <span>{scenic ? "Like" : "Funny"}</span> <b>{vote.upvotes}</b></button>
     <span className="vote-score" aria-label={`Score: ${vote.score}`} aria-live="polite">{Number(vote.score) > 0 ? "+" : ""}{vote.score}</span>
-    <button type="button" aria-label="Downvote caption" aria-pressed={vote.mine === -1} disabled={pending} onClick={() => submit(-1)}>↓ <span>Pass</span> <b>{vote.downvotes}</b></button>
+    <button type="button" aria-label={scenic ? "Dislike caption" : "Downvote caption"} aria-pressed={vote.mine === -1} disabled={pending} onClick={() => submit(-1)}>↓ <span>{scenic ? "Dislike" : "Pass"}</span> <b>{vote.downvotes}</b></button>
   </div>{error && <p className="vote-error" role="alert">{error}</p>}</div>;
 }

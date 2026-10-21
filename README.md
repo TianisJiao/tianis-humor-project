@@ -95,3 +95,14 @@ The explorer now includes 16 curated stops across Manhattan, Brooklyn, Queens, t
 Clicking Share on a caption prepares a 1600×1100 PNG postcard with the whole uploaded photo, the chosen caption, paper styling and decorative souvenir postage. It does not make another AI call. Portrait and panoramic images are fitted without cropping, and longer captions shrink and wrap within the text panel. Download works independently of device file-sharing support. The button opens a preview first; the system share menu is a second explicit action and does not promise direct publishing to every platform. No database migration or new API key is required.
 
 Validation: `node tests/postcard-layout.mjs` checks photo aspect ratios, long-caption bounds, non-space text wrapping and landmark coverage. Existing prompt-chain tests mock model responses, and RLS tests run locally. Map filtering/zooming, browser illustration upload, AI generation, voting persistence and postcard download on this version still need production verification. These changes implement the user's request for more landmarks, borough colors and postcard exports; they are not attributed to unseen PM feedback.
+
+
+## TA feedback: adaptive captions
+
+Apply `supabase/week5-adaptive-captions.sql` in the existing Supabase SQL Editor **before deploying this update**. It preserves existing captions/votes, defaults old images to meme style, and keeps the existing authenticated atomic publish RPC signature and RLS policies. Do not rerun the older Week 4 migration after this upgrade; it would replace the upgraded publish function.
+
+New uploads default to Auto. The first vision call returns a factual description, meme/scenery classification, and visible-evidence reason. The second text-only call writes three funny or poetic captions. Meme templates/text take priority over scenic backgrounds. The user may override the style before generation; the resolved style is persisted on the image, with the analysis, override, and exact prompts in owner-private generation records. Classification is an AI judgment and may be wrong.
+
+Gallery votes use Funny/Pass for meme captions and Like/Dislike for scenic captions; both retain existing +1/-1 persistence and undo behavior. Map exploration and postcard export continue to work for either style. No new API key or environment variable is needed.
+
+Validation: `npm run lint`, `npm run test:chain`, `npm run test:rls`, `node tests/postcard-layout.mjs`, `npm run build`. Chain provider responses are mocked and SQL tests use local PGlite, not the live database. After deployment test one meme and one scenic photo in Auto, one manual override, refreshed votes, postcard download, and incognito route protection.
