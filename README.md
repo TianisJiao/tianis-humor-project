@@ -106,3 +106,12 @@ New uploads default to Auto. The first vision call returns a factual description
 Gallery votes use Funny/Pass for meme captions and Like/Dislike for scenic captions; both retain existing +1/-1 persistence and undo behavior. Map exploration and postcard export continue to work for either style. No new API key or environment variable is needed.
 
 Validation: `npm run lint`, `npm run test:chain`, `npm run test:rls`, `node tests/postcard-layout.mjs`, `npm run build`. Chain provider responses are mocked and SQL tests use local PGlite, not the live database. After deployment test one meme and one scenic photo in Auto, one manual override, refreshed votes, postcard download, and incognito route protection.
+
+
+## Week 7 shared observability
+
+This update keeps the existing app, atlas, postcards and voting. Both user and admin uploads now call `begin_generation`, snapshot the real weighted chain/model and active editorial references, record both real LLM step responses, and finish the generation request after publishing. Apply `supabase/week7-observability.sql` once in the shared database after Week 6, BEFORE deploying either upgraded application. The exact same migration is also bundled in the admin repository; do not run older setup migrations afterward.
+
+No new keys: keep this project's existing server-only OPENAI_API_KEY. The active model is now chosen in the admin database configuration, rather than OPENAI_MODEL. Terms and examples are filtered by caption style and bounded to the prompt limit. Old saved prompts remain intact. No fake historical latency, token usage or API responses are backfilled. Signup domain/email restrictions are disabled by default, and only affect new accounts when the admin enables them. They never grant administrator access.
+
+Validation: `npm run lint`, `npm run test:chain`, `npm run test:rls`, `npm run test:observability`, `npm run build`. Provider and orchestration tests are mocked; real generation, trace rows, voting and postcard export must still be checked on both new Vercel deployments. See the admin README for schema/security tests and live acceptance steps.

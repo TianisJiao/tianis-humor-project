@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:rls": "node tests/week4-rls.mjs",
-    "test:chain": "node tests/prompt-chain.mjs"
+    "test:chain": "node tests/prompt-chain.mjs",
+    "test:observability": "node tests/week7-chain.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

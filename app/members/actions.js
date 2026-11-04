@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "../../lib/supabase/server";
 import { landmarkById } from "../../lib/nyc-landmarks.mjs";
-import { generateCaptions } from "../../lib/caption-chain";
+import { generateMedia } from "../../lib/generate-media";
 import { imageType, MAX_IMAGE_BYTES } from "../../lib/meme-validation.mjs";
 
 async function authenticated() {
@@ -33,25 +33,13 @@ export async function uploadMeme(_previous, formData) {
     const error = reserveError.message.includes("daily_limit") ? "You have reached today's 10-upload limit. Come back tomorrow." : reserveError.message.includes("generation_in_progress") ? "Your previous image is still processing. Please wait a few minutes." : "The upload could not start. Please try again later.";
     return { error };
   }
-  let uploaded = false;
   try {
-    const { error } = await supabase.storage.from("meme-images").upload(image.storage_path, bytes, { contentType: type.mime, upsert: false });
-    if (error) throw new Error("Storage upload failed");
-    uploaded = true;
-    const generated = await generateCaptions(bytes, type.mime, theme, landmarkId, mode);
-    const { error: saveError } = await supabase.rpc("publish_meme", {
-      image_id: image.id, image_description: generated.description, caption_texts: generated.captions,
-      generation_prompts: generated.prompts, generation_model: generated.model, generation_version: generated.version,
-    });
-    if (saveError) throw new Error("Caption save failed");
+    const generated = await generateMedia({supabase,image,bytes,mime:type.mime,theme,landmarkId,mode,source:"rating_app"});
     revalidatePath("/members");
     return { success: `${generated.captionStyle === "scenery" ? "Scenery · three poetic captions" : "Meme · three funny captions"} are ready. Find your image at the top of the gallery.`, imageId: image.id };
-  } catch (error) {
-    console.error("Meme generation failed", { imageId: image.id, message: error.message });
-    // Only unpublished objects can be removed; published images remain consistent.
-    if (uploaded) await supabase.storage.from("meme-images").remove([image.storage_path]);
-    await supabase.rpc("fail_meme", { image_id: image.id });
-    return { error: "We couldn't finish or confirm this upload. Refresh the gallery before trying again." };
+  } catch {
+    revalidatePath("/members");
+    return {error:"We couldn't finish or confirm this upload. Refresh the gallery before trying again."};
   }
 }
 
